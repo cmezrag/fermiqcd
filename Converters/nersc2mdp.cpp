@@ -8,12 +8,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <complex.h>
+#include <complex>
 #include <time.h>
 #include <iostream>
 using namespace std;
 
-#define Complex complex<float>
+#define Complex std::complex<float>
 #define Nspace  nx[1]*nx[2]*nx[3]
 #define Ndim 4
 

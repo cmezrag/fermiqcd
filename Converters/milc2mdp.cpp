@@ -1,7 +1,10 @@
-#include"stdio.h"
-#include"math.h"
-#include "complex.h"
+#include "stdio.h"
+#include "math.h"
+#include <complex>
+#include <cstring>
 #include "time.h"
+
+
 
 template<class T>
 void switch_endianess_byte4(T &a) {
@@ -19,7 +22,7 @@ void switch_endianess_byte4(T &a) {
   } else printf("error endianess\n");
 }
 
-#define Complex complex<float>
+using Complex = std::complex<float>;
 
 #define TRUE  1;
 #define FALSE 0;
@@ -214,7 +217,7 @@ int main(int argc, char **argv) {
     fclose(MILC_fp);
     fclose(MDP_fp);
     printf("\nAll sites are OK.\n");
-    printf("Done in %i secs.\n", clock()/CLOCKS_PER_SEC-time0);
+    printf("Done in %li secs.\n", static_cast<long>(clock()/CLOCKS_PER_SEC - time0));
   } else {
     printf("I am sorry conversion of propagators not implemnetd yet!\n");
   };

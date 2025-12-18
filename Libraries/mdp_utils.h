@@ -70,13 +70,13 @@ string tostring(float k) {
   return string(buf);
 }
 
-int is_file(string filename, char permission[]="r") {
-  FILE *fp=fopen(filename.c_str(), permission);
-  if(fp>0) {
+int is_file(const std::string& filename, const char* permission = "r") {
+  FILE* fp = fopen(filename.c_str(), permission);
+  if (fp != nullptr) {
     fclose(fp);
-    return true;
+    return 1;
   }
-  return false;
+  return 0;
 }
 
 mdp_field_file_header get_info(string filename, int proc=0) {

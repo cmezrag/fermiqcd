@@ -3,7 +3,7 @@
 #include "math.h"
 #include "string.h"
 #include "time.h"
-#include "complex.h"
+#include "complex"
 
 
 template<class T>
@@ -23,9 +23,9 @@ void switch_endianess_byte4(T &a) {
 }
 
 #ifndef USE_DOUBLE_PRECISION
-typedef complex<float> Complex;
+typedef std::complex<float> Complex;
 #else
-typedef complex<double> Complex;
+typedef std::complex<double> Complex;
 #endif
 
 class _generic_field_file_header {
