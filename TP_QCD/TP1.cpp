@@ -306,11 +306,13 @@ void Exercice3(){
     double sumshift, chi, chi0, normedchi,rough_time ;  
     int icorel, ncorel = 100;
 
-    for(icorel=0;icorel<=ncorel;icorel++){
+    for(icorel=1;icorel<=ncorel;icorel++){
+
+        std::cout << "icorel =   " << icorel << std::endl ;
 
         sumshift=0.;
 
-        for(i=1;i<= nmarkov-icorel;i++){
+        for(i=0;i< nmarkov-icorel;i++){
             
             sumshift = sumshift+store_function.at(i)*store_function.at(i+icorel) ;
 
@@ -318,11 +320,11 @@ void Exercice3(){
 
         chi = sumshift / (nmarkov-icorel) -mean*mean;
 
-        if(icorel == 0) chi0=chi ;
+        if(icorel == 1) chi0=chi ;
         
         normedchi = chi/chi0 ;
 
-        if(icorel==1){
+        if(icorel==2){
 
             rough_time = -1./log(normedchi);
 
@@ -337,13 +339,22 @@ void Exercice3(){
 }
 
 
+void Exercice4(){
+
+    
+
+
+}
+
 int main(){
 
     //Excerice1();
 
     //Exercice2();
 
-    Exercice3();
+    //Exercice3();
+
+    Exercice4();
 
     return 0;
 }
