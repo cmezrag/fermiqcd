@@ -312,7 +312,7 @@ void Exercice3(){
 
         for(i=1;i<= nmarkov-icorel;i++){
             
-            sumshift = sumshift+store_function.at(i)*store_function.at(i+icorel)
+            sumshift = sumshift+store_function.at(i)*store_function.at(i+icorel) ;
 
         }
 
