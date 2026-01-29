@@ -207,11 +207,143 @@ optfile3.close();
 
 }
 
+
+void Exercice3(){
+
+    std::ofstream optfile1("CalculND.dat", std::ios::out);
+    std::ofstream optfile2("sample.dat", std::ios::out);
+    std::ofstream optfile3("walk_2D.dat", std::ios::out);
+
+    std::mt19937 engine{ std::random_device{}() };
+
+    double epsi = 1.;
+    std::uniform_real_distribution<double> randomstep(-epsi, epsi);   // (-1,1)
+    std::uniform_real_distribution<double> randomweight(0., 1.);   // (0,1)
+
+
+    int i, j, dim = 2, nmarkov = 100000 ;
+
+    std::vector<double> x, y;
+    std::vector<double> store_function;
+    double accept = 0.;
+
+    //initialisation procedure
+    for(j;j<dim;j++){
+        x.push_back(0.);
+        y.push_back(0.);
+    }
+
+    std::cout << "initialisation of vectors done" << std::endl ;
+
+    for(i=0; i<nmarkov; i++){
+
+        for(j=0; j< dim; j++){
+
+            y.at(j) = x.at(j) + randomstep(engine) ;
+
+        }
+
+
+        if(ProbaDist(&y)/ProbaDist(&x) > randomweight(engine)){
+
+            x = y ;
+            accept = accept +1. ;
+
+        }
+
+
+        store_function.push_back( FunctionExercice2(&x) );    
+
+        if(dim==1) // write 1d hain for histogram
+            {
+                optfile2<<i<<" "<<x.at(0)<< std::endl;
+            }
+        if(dim==2) // write 2d chain
+            {
+                optfile3<<i << " " << x.at(0) <<" " << x.at(1) << std::endl;
+            }
+
+    }
+
+    std::cout << "First part done" << std::endl ;
+
+    double sum = 0., mean = 0., sum2 =0., mean2=0., sigma=0.; 
+    double exact = dim/2 ;
+
+    for(i=0;i<nmarkov;i++){
+        sum=sum+store_function.at(i);
+        mean=sum/i;
+        sum2=sum2+store_function.at(i) * store_function.at(i);
+        mean2=sum2/i;
+        sigma=std::sqrt((mean2-mean*mean)/i);
+        if(i%1000==0)
+        {
+            optfile1<<i<<" "<<mean<<" "<<sigma<< std::endl;
+        }
+    }
+
+
+
+    std::cout<<"calcul en dimension: "<<dim<< std::endl;
+    std::cout<<" accept rate: "<<accept/nmarkov<< std::endl;
+    std::cout<<"mean: "<<mean<<" std error: "<<sigma<<" exact: "<<exact<< std::endl;
+    //
+    optfile1.close(); 
+    optfile2.close(); 
+    optfile3.close(); 
+
+/*--------------------------------------------------------
+-
+-            Autocorrelation
+-
+----------------------------------------------------------
+
+*/
+
+
+    std::ofstream optfile4("autocorel_Nd.dat", std::ios::out);
+
+    double sumshift, chi, chi0, normedchi,rough_time ;  
+    int icorel, ncorel = 100;
+
+    for(icorel=0;icorel<=ncorel;icorel++){
+
+        sumshift=0.;
+
+        for(i=1;i<= nmarkov-icorel;i++){
+            
+            sumshift = sumshift+store_function.at(i)*store_function.at(i+icorel)
+
+        }
+
+        chi = sumshift / (nmarkov-icorel) -mean*mean;
+
+        if(icorel == 0) chi0=chi ;
+        
+        normedchi = chi/chi0 ;
+
+        if(icorel==1){
+
+            rough_time = -1./log(normedchi);
+
+        }
+
+        optfile4<< icorel << "  " << normedchi << std::endl ;
+
+    }   
+
+    std::cout << "rough estimate of exponential time =  " << rough_time << std::endl ;
+
+}
+
+
 int main(){
 
     //Excerice1();
 
-    Exercice2();
+    //Exercice2();
+
+    Exercice3();
 
     return 0;
 }
